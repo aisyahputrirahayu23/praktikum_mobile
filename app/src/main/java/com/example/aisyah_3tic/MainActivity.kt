@@ -4,12 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.aisyah_3tic.databinding.ActivityLoginBinding
 import com.example.aisyah_3tic.databinding.ActivityMainBinding
 import com.example.aisyah_3tic.pertemuan_5.LimaActivity
+import com.example.aisyah_3tic.pertemuan_6.EnamActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        val sharedPref = getSharedPreferences("user_pref", MODE_PRIVATE)
         val nama = intent.getStringExtra("nama")
         val umur = intent.getIntExtra("umur", 0)
 
@@ -41,6 +44,27 @@ class MainActivity : AppCompatActivity() {
         binding.btnToLima.setOnClickListener { // ganti jadi binding
             val intent = Intent(this@MainActivity, LimaActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.btnToEnam.setOnClickListener { // ganti jadi binding
+            val intent = Intent(this@MainActivity, EnamActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnLogout.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("Logout")
+                .setMessage("Apakah Anda yakin ingin keluar?")
+                .setPositiveButton("Ya") { dialog, _ ->
+                    val editor = sharedPref.edit()
+                    editor.clear()
+                    editor.apply()
+                    dialog.dismiss()
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
+                }
+                .setNegativeButton("Batal") { dialog, _ -> dialog.dismiss() }
+                .show()
         }
 
         binding.nama.text = nama
