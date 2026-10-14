@@ -1,9 +1,8 @@
-package com.example.aisyah_3tic.pertemuan_5
+package com.example.aisyah_3tic.Home.pertemuan_5
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
+import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -11,34 +10,43 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.aisyah_3tic.R
 import com.example.aisyah_3tic.databinding.ActivityLimaBinding
-import com.example.aisyah_3tic.databinding.ActivityLoginBinding
+import com.example.aisyah_3tic.databinding.ActivityWebViewBinding
 
-class LimaActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityLimaBinding // tambah
+class WebViewActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityWebViewBinding // tambah
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        binding = ActivityLimaBinding.inflate(layoutInflater) // tambah
+        binding = ActivityWebViewBinding.inflate(layoutInflater) // tambah
         setContentView(binding.root) // tambah
-
+        
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
+        // Mengaktifkan toolbar
         setSupportActionBar(binding.toolbar)
         supportActionBar?.apply {
-            title = "Halaman Utama Pertemuan 5"
-            subtitle = "Ini adalah subtitle"
-            setDisplayHomeAsUpEnabled(true) // display menampilkan panah aja belum bisa di klik
+            title = "Web PCR"
+            setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
             setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         }
 
-        binding.btnWebView.setOnClickListener {
-            startActivity(Intent(this, WebViewActivity::class.java))
+        binding.webView.webViewClient = WebViewClient()
+        binding.webView.settings.javaScriptEnabled = true
+        binding.webView.loadUrl("https://pcr.ac.id")
+
+        // Agar Toolbar hide/show saat scroll web
+        binding.webView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+            if (scrollY > oldScrollY) {
+                binding.appBar.setExpanded(false, true) // sembunyikan
+            } else if (scrollY < oldScrollY) {
+                binding.appBar.setExpanded(true, true) // tampilkan
+            }
         }
     }
 
@@ -48,21 +56,7 @@ class LimaActivity : AppCompatActivity() {
                 onBackPressedDispatcher.onBackPressed()
                 true
             }
-
-            R.id.action_search -> {
-                Toast.makeText(this, "Search Clicked", Toast.LENGTH_SHORT).show()
-                true
-            }
-            R.id.action_settings -> {
-                Toast.makeText(this, "Settings Clicked", Toast.LENGTH_SHORT).show()
-                true
-            }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        return true
     }
 }

@@ -1,22 +1,24 @@
-package com.example.aisyah_3tic.pertemuan_6
+package com.example.aisyah_3tic.Home.pertemuan_5
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.Fragment
 import com.example.aisyah_3tic.R
-import com.example.aisyah_3tic.databinding.ActivityEnamBinding
+import com.example.aisyah_3tic.databinding.ActivityLimaBinding
 
-class EnamActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityEnamBinding
+class LimaActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityLimaBinding // tambah
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        binding = ActivityEnamBinding.inflate(layoutInflater) // tambah
+        binding = ActivityLimaBinding.inflate(layoutInflater) // tambah
         setContentView(binding.root) // tambah
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -24,29 +26,19 @@ class EnamActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         setSupportActionBar(binding.toolbar)
         supportActionBar?.apply {
-            title = "Halaman Utama Pertemuan 6"
+            title = "Halaman Utama Pertemuan 5"
+            subtitle = "Ini adalah subtitle"
             setDisplayHomeAsUpEnabled(true) // display menampilkan panah aja belum bisa di klik
             setDisplayShowHomeEnabled(true)
             setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         }
-        // Setup event click untuk mengganti fragment
-        binding.btnFrag1.setOnClickListener {
-            replaceFragment(SatuFragment())
-        }
-        binding.btnFrag2.setOnClickListener {
-            replaceFragment(DuaFragment())
-        }
-        binding.btnFrag3.setOnClickListener {
-            replaceFragment(TigaFragment())
-        }
-    }
 
-    private fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(binding.containerFragment.id, fragment)
-            .commit()
+        binding.btnWebView.setOnClickListener {
+            startActivity(Intent(this, WebViewActivity::class.java))
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -55,7 +47,21 @@ class EnamActivity : AppCompatActivity() {
                 onBackPressedDispatcher.onBackPressed()
                 true
             }
+
+            R.id.action_search -> {
+                Toast.makeText(this, "Search Clicked", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.action_settings -> {
+                Toast.makeText(this, "Settings Clicked", Toast.LENGTH_SHORT).show()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
     }
 }
