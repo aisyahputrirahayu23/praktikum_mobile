@@ -122,6 +122,18 @@
             app:layout_constraintTop_toBottomOf="@+id/btnToEnam"
             app:layout_gravity="fill_horizontal" />
 
+        <Button
+            android:id="@+id/btnToEleven"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#8CB864"
+            android:text="Pertemuan 11"
+            app:layout_columnWeight="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnToEnam"
+            app:layout_gravity="fill_horizontal" />
+
     </androidx.gridlayout.widget.GridLayout>
 
     <Button
